@@ -8,25 +8,23 @@ const EulerAnimation = () => {
 
     useEffect(() => {
         // Fetch points from the Streamlit backend
-        fetch("https://blank-app-6vbuqbt0lzl.streamlit.app/euler_points.json") // JSON endpoint
+        fetch("https://blank-app-6vbuqbt0lzl.streamlit.app/euler-points") // Ensure this endpoint returns raw JSON
             .then((response) => response.json())
             .then((data) => setPoints(data))
             .catch((error) => console.error("Error fetching data:", error));
     }, []);
 
-    // Animate the point on the unit circle
     const { x, y } = useSpring({
         x: points.length ? points[index].cos : 0,
         y: points.length ? points[index].sin : 0,
-        config: { tension: 170, friction: 26 }
+        config: { tension: 170, friction: 26 },
     });
 
-    // Cycle through points
     useEffect(() => {
         if (points.length > 0) {
             const interval = setInterval(() => {
                 setIndex((prev) => (prev + 1) % points.length);
-            }, 100); // Adjust speed as needed
+            }, 100);
             return () => clearInterval(interval);
         }
     }, [points]);
