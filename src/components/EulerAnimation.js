@@ -10,7 +10,7 @@ const EulerAnimation = () => {
         // Fetch points from the Streamlit backend
         fetch("https://blank-app-6vbuqbt0lzl.streamlit.app/euler-points") // Ensure this endpoint returns raw JSON
             .then((response) => response.json())
-            .then((data) => setPoints(data))
+            .then((data) => setPoints(JSON.parse(data)))
             .catch((error) => console.error("Error fetching data:", error));
     }, []);
 
@@ -20,11 +20,12 @@ const EulerAnimation = () => {
         config: { tension: 170, friction: 26 },
     });
 
+    // Cycle through points
     useEffect(() => {
         if (points.length > 0) {
             const interval = setInterval(() => {
                 setIndex((prev) => (prev + 1) % points.length);
-            }, 100);
+            }, 100); // Adjust speed as needed
             return () => clearInterval(interval);
         }
     }, [points]);
